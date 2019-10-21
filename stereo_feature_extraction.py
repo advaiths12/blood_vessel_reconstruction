@@ -30,11 +30,11 @@ class image_grabber:
 			if(ret):
 				split_width = frame.shape[1]//2
 				left_img, right_img = cv2.GaussianBlur(frame[:, 0:split_width, :], (3, 3), 0), cv2.GaussianBlur(frame[:, split_width-1:-1, :], (3, 3), 0)
-				left_img_alt = cv2.adaptiveThreshold(cv2.cvtColor(left_img, cv2.COLOR_BGR2GRAY), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,  
-	                                          cv2.THRESH_BINARY, 7, 3) 
+				left_img_alt = cv2.adaptiveThreshold(cv2.cvtColor(left_img, cv2.COLOR_BGR2GRAY), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+	                                          cv2.THRESH_BINARY, 7, 3)
 				left_img = cv2.cvtColor(left_img, cv2.COLOR_BGR2GRAY)
-				right_img_alt = cv2.adaptiveThreshold(cv2.cvtColor(right_img, cv2.COLOR_BGR2GRAY), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,  
-	                                          cv2.THRESH_BINARY, 7, 3) 
+				right_img_alt = cv2.adaptiveThreshold(cv2.cvtColor(right_img, cv2.COLOR_BGR2GRAY), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+	                                          cv2.THRESH_BINARY, 7, 3)
 				right_img = cv2.cvtColor(right_img, cv2.COLOR_BGR2GRAY)
 				# = frame[frame.shape[1]/2+1:][:]
 				# print right_img.shape
@@ -49,11 +49,11 @@ class image_grabber:
 					self.prev2 = right_img
 					left_img = left_img_temp
 					right_img = right_img_temp
-				l_stereo = cv2.StereoSGBM_create(numDisparities=16, blockSize=3, 
-											 uniquenessRatio=15, 
-											 speckleWindowSize=0, 
-											 speckleRange=2, 
-											 preFilterCap=20, 
+				l_stereo = cv2.StereoSGBM_create(numDisparities=16, blockSize=3,
+											 uniquenessRatio=15,
+											 speckleWindowSize=0,
+											 speckleRange=2,
+											 preFilterCap=20,
 											 mode=cv2.STEREO_SGBM_MODE_SGBM_3WAY)
 				r_stereo = cv2.ximgproc.createRightMatcher(l_stereo)
 				wls_filter = cv2.ximgproc.createDisparityWLSFilter(matcher_left=l_stereo)
@@ -78,11 +78,11 @@ class image_grabber:
 
 				cv2.waitKey(50)
 		cv2.destroyAllWindows()
-		return 
+		return
 
 def main():
 	cv2.destroyAllWindows()
-	
+
 
 
 	# img = cv2.imread("/home/advaith/Desktop/ster.png")
