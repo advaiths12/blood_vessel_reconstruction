@@ -22,12 +22,13 @@ class image_grabber:
 		print("in grab and send")
 		if(not self.cap.isOpened()):
 			print("Error in video file path")
+		pcd = o3d.geometry.PointCloud()
 		while(self.cap.isOpened()):
-			self.viz = o3d.visualization.Visualizer()
-			self.viz.create_window()
+
 			ret, frame = self.cap.read()
 			if(ret):
 
+				pcd.clear()
 				split_width = frame.shape[1]//2
 				left_img, right_img = frame[:, 0:split_width, :], frame[:, split_width-1:-1, :]
 				rgb_img = left_img
@@ -42,10 +43,10 @@ class image_grabber:
 				# print left_img.shape
 
 				l_stereo = cv2.StereoSGBM_create(numDisparities=16, blockSize=3,
-											 uniquenessRatio=5,
+											 uniquenessRatio=20,
 											 speckleWindowSize=0,
 											 speckleRange=2,
-											 preFilterCap=50,
+											 preFilterCap=20,
 											 mode=cv2.STEREO_SGBM_MODE_SGBM_3WAY)
 				r_stereo = cv2.ximgproc.createRightMatcher(l_stereo)
 				wls_filter = cv2.ximgproc.createDisparityWLSFilter(matcher_left=l_stereo)
@@ -59,14 +60,15 @@ class image_grabber:
 				filtered = cv2.normalize(src=filtered, dst=filtered, beta=0, alpha=255, norm_type=cv2.NORM_MINMAX)
 				filtered = np.uint8(filtered)
 				#disparity = cv2.convertScaleAbs(stereo.compute(left_img, right_img))
-				rgb_img1 = o3d.geometry.Image((rgb_img * 255).astype(np.uint8))
+				rgb_img1 = o3d.geometry.Image(rgb_img)
 				filtered_o3d = o3d.geometry.Image(filtered)
 				rgbd_img = o3d.geometry.RGBDImage.create_from_color_and_depth(rgb_img1, filtered_o3d)
+
 				pcd = o3d.geometry.PointCloud.create_from_rgbd_image(rgbd_img, o3d.camera.PinholeCameraIntrinsic(
             o3d.camera.PinholeCameraIntrinsicParameters.PrimeSenseDefault))
-				flip_transform = [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
-				pcd.transform(flip_transform)
-
+				# flip_transform = [[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]
+				# pcd.transform(flip_transform)
+				self.viz.add_geometry(pcd)
 				self.viz.update_geometry()
 				self.viz.poll_events()
 				self.viz.update_renderer()
@@ -79,7 +81,6 @@ class image_grabber:
 				#o3d.visualization.draw_geometries([pcd])
 
 				cv2.waitKey(50)
-				self.viz.destroy_window()
 		cv2.destroyAllWindows()
 		return
 
