@@ -13,4 +13,4 @@ OpenCV Contrib
 Numpy
 Sklearn
 
-![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
+![alt text](https://github.com/advaiths12/blood_vessel_reconstruction/blob/master/doc_1.png)
