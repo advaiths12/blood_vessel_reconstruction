@@ -13,4 +13,8 @@ OpenCV Contrib
 Numpy
 Sklearn
 
+Examples of output:
 ![alt text](https://github.com/advaiths12/blood_vessel_reconstruction/blob/master/doc_1.png)
+![alt text](https://github.com/advaiths12/blood_vessel_reconstruction/blob/master/doc_2.png)
+![alt text](https://github.com/advaiths12/blood_vessel_reconstruction/blob/master/doc_3.png)
+![alt text](https://github.com/advaiths12/blood_vessel_reconstruction/blob/master/doc_4.png)
